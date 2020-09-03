@@ -1,0 +1,81 @@
+import pandas as pd
+df=pd.read_csv('testscore.csv')
+df
+res=0
+def hypothesis_ftn(X,theta_0,theta_1):
+    hofx=[]
+    hofx.append(0)
+    for i in X:
+        #print(i[0])
+        res=theta_0+theta_1*(i[0])
+        #print(res)
+        hofx[0]=hofx.append(res)
+        #print("predicted y",hofx[1:])
+    return hofx[1:]
+ def cost_ftn(hyp,Y):
+    err=0
+    sum_of_err=0
+    length=len(Y)
+    for j in range(length):
+        #print(Y[j][0])
+        err=(hyp[j]-Y[j][0])*(hyp[j]-Y[j][0])
+        sum_of_err=sum_of_err+err
+    final_res=(sum_of_err/(2*length))
+    return final_res
+ #Gradient Descent
+def Gradient_ftn_0(hyp,Y):
+    err=0
+    sum_of_err=0
+    length=len(Y)
+    for j in range(length):
+        #print(Y[j][0])
+        err=(hyp[j]-Y[j][0])
+        sum_of_err=sum_of_err+err
+        a=(alpha/length)
+        b=a*sum_of_err
+    final_res=(theta_0-b)
+    return final_res
+def Gradient_ftn_1(hyp,Y,X):
+    err1=0
+    sum_of_err1=0
+    length=len(Y)    
+    for k in range(length):
+        #print(Y[j][0])
+        err1=(hyp[k]-Y[k][0])*(X[k][0])
+        sum_of_err1=sum_of_err1+err1
+        a=(alpha/length)
+        b=a*sum_of_err1
+    final_res=(theta_1-b)
+    return final_res
+ X=df.iloc[0:, [0]].values.tolist()
+Y=df.iloc[0:, [1]].values.tolist()
+# X=df.Study Hour
+# Y=df.Marks
+theta_0=10
+theta_1=5
+alpha=0.2
+j_theta=1
+j_theta_list=[]
+hyp=0
+#while(j_theta>0):
+for i in range(10):
+    #print(i)
+    hyp=hypothesis_ftn(X,theta_0,theta_1)
+    #print(hyp)
+    j_theta=cost_ftn(hyp,Y)
+    j_theta_list.append(j_theta)
+    theta_0=Gradient_ftn_0(hyp,Y)
+    theta_1=Gradient_ftn_1(hyp,Y,X)
+    #print(j_theta)
+predicted_val=(list(hyp))
+predicted_val
+#print("how value of j(theta) change")
+j_theta_list
+import matplotlib.pyplot as plt
+no_on_itr=[1,2,3,4,5,6,7,8,9,10]
+
+plt.xlabel('no_on_iteration') 
+# naming the y axis 
+plt.ylabel('j(theta)')
+
+plt.plot(no_on_itr,j_theta_list)
